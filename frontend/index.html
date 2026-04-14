@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fake News Detection System Frontend</title>
+    <meta property="og:image" content="https://bolt.new/static/og_default.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://bolt.new/static/og_default.png" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <input type="text" id="newsInput" placeholder="Enter news here">
+    <button onclick="checkNews()">Check News</button>
+    <p id="result"></p>
+  </body>
+</html>
+<input type="text" id="newsInput" placeholder="Enter news here">
+<button onclick="checkNews()">Check News</button>
+
+<p id="result"></p>
+<script>
+function checkNews() {
+  const inputText = document.getElementById("newsInput").value;
+
+  if (!inputText) {
+    alert("Please enter news text");
+    return;
+  }
+
+  document.getElementById("result").innerText = "Checking...";
+
+  fetch("http://127.0.0.1:5000/predict", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      news: inputText
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("result").innerHTML =
+      `<b>${data.prediction}</b><br>Confidence: ${data.confidence}`;
+  })
+  .catch(err => {
+    document.getElementById("result").innerText = "Error connecting to backend";
+  });
+}
+</script>
