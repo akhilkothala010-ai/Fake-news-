@@ -14,11 +14,13 @@ export default function Profile() {
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
+
   useEffect(() => {
     const fetchHistory = async () => {
       if (!user) return;
       try {
-        const res = await fetch(`http://127.0.0.1:5000/history?user_id=${user.id}`);
+        const res = await fetch(`${API_URL}/history?user_id=${user.id}`);
         const data = await res.json();
         if (res.ok) {
           setHistory(data);

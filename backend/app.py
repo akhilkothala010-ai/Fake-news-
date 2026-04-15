@@ -8,7 +8,7 @@ from preprocess import clean_text
 import os
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 # Load model gracefully
 model_path = os.path.join("ml_model", "model.pkl")

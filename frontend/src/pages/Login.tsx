@@ -14,13 +14,15 @@ export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
 
     try {
-      const endpoint = isLogin ? 'http://127.0.0.1:5000/login' : 'http://127.0.0.1:5000/signup';
+      const endpoint = isLogin ? `${API_URL}/login` : `${API_URL}/signup`;
       const body = isLogin 
         ? { email, password } 
         : { username, email, password };
